@@ -6,9 +6,9 @@
 // 6. Po zjechaniu z elementu, usuń tooltip ze strony. 
 // 7. Zamknij kod w module. 
 
-function showTooltip() {}
-
-
+function showTooltip(e) {
+    console.log(e);
+}
 
 function init(elems) {
     for(let elem of elems) {
@@ -16,4 +16,4 @@ function init(elems) {
     }
 }
 
-init(document.querySelectorAll("[title"));
+init(document.querySelectorAll("[title]"));
