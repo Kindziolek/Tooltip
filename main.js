@@ -40,8 +40,9 @@ function showTooltip(e) {
     e.currentTarget.removeAttribute("title");
 }
 
-function hideTooltip() {
+function hideTooltip(e) {
     if(activeTooltip) {
+        e.currentTarget.setAttribute("title", activeTooltip.textContent);
         activeTooltip.remove();
     }
 }
