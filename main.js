@@ -6,15 +6,16 @@
 // 6. Po zjechaniu z elementu, usuń tooltip ze strony. 
 // 7. Zamknij kod w module. 
 
-function createTooltip(text) {
+function createTooltip(text, options) {
     const tooltip = document.createElement("div");
 
     tooltip.className = "tooltip hidden";
     tooltip.textContent = text;
 
-
-
     document.body.append(tooltip);
+
+    tooltip.style.left = `${options.x + options.w / 2 - tooltip.offsetWidth / 2}px`;
+    tooltip.style.top = `${options.y - tooltip.offsetHeight - 10}px`;
 
     tooltip.classList.remove("hidden");
 }
@@ -22,9 +23,15 @@ function createTooltip(text) {
 function showTooltip(e) {
     const pos = e.currentTarget.getBoundingClientRect();
 
+    const options = {
+        w: pos.width,
+        x: pos.left,
+        y: pos.top
+    };
+            
     const text = e.currentTarget.getAttribute("title");
 
-    createTooltip(text);
+    createTooltip(text, options);
 }
 
 function init(elems) {
