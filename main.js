@@ -6,6 +6,8 @@
 // 6. Po zjechaniu z elementu, usuń tooltip ze strony. 
 // 7. Zamknij kod w module. 
 
+let activeTooltip = null;
+
 function createTooltip(text, options) {
     const tooltip = document.createElement("div");
 
@@ -18,6 +20,8 @@ function createTooltip(text, options) {
     tooltip.style.top = `${options.y - tooltip.offsetHeight - 10}px`;
 
     tooltip.classList.remove("hidden");
+
+    activeTooltip = tooltip;
 }
 
 function showTooltip(e) {
@@ -32,11 +36,20 @@ function showTooltip(e) {
     const text = e.currentTarget.getAttribute("title");
 
     createTooltip(text, options);
+
+    e.currentTarget.removeAttribute("title");
+}
+
+function hideTooltip() {
+    if(activeTooltip) {
+        activeTooltip.remove();
+    }
 }
 
 function init(elems) {
     for(let elem of elems) {
         elem.addEventListener("mouseenter", showTooltip);
+        elem.addEventListener("mouseleave", hideTooltip);
     }
 }
 
