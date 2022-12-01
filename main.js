@@ -6,52 +6,56 @@
 // 6. Po zjechaniu z elementu, usuń tooltip ze strony. 
 // 7. Zamknij kod w module. 
 
-let activeTooltip = null;
+(function() {
+    let activeTooltip = null;
 
-function createTooltip(text, options) {
-    const tooltip = document.createElement("div");
+    function createTooltip(text, options) {
+        const tooltip = document.createElement("div");
 
-    tooltip.className = "tooltip hidden";
-    tooltip.textContent = text;
+        tooltip.className = "tooltip hidden";
+        tooltip.textContent = text;
 
-    document.body.append(tooltip);
+        document.body.append(tooltip);
 
-    tooltip.style.left = `${options.x + options.w / 2 - tooltip.offsetWidth / 2}px`;
-    tooltip.style.top = `${options.y - tooltip.offsetHeight - 10}px`;
+        tooltip.style.left = `${options.x + options.w / 2 - tooltip.offsetWidth / 2}px`;
+        tooltip.style.top = `${options.y - tooltip.offsetHeight - 10}px`;
 
-    tooltip.classList.remove("hidden");
+        tooltip.classList.remove("hidden");
 
-    activeTooltip = tooltip;
-}
-
-function showTooltip(e) {
-    const pos = e.currentTarget.getBoundingClientRect();
-
-    const options = {
-        w: pos.width,
-        x: pos.left,
-        y: pos.top
-    };
-            
-    const text = e.currentTarget.getAttribute("title");
-
-    createTooltip(text, options);
-
-    e.currentTarget.removeAttribute("title");
-}
-
-function hideTooltip(e) {
-    if(activeTooltip) {
-        e.currentTarget.setAttribute("title", activeTooltip.textContent);
-        activeTooltip.remove();
+        activeTooltip = tooltip;
     }
-}
 
-function init(elems) {
-    for(let elem of elems) {
-        elem.addEventListener("mouseenter", showTooltip);
-        elem.addEventListener("mouseleave", hideTooltip);
+    function showTooltip(e) {
+        const pos = e.currentTarget.getBoundingClientRect();
+
+        const options = {
+            w: pos.width,
+            x: pos.left,
+            y: pos.top
+        };
+                
+        const text = e.currentTarget.getAttribute("title");
+
+        createTooltip(text, options);
+
+        e.currentTarget.removeAttribute("title");
     }
-}
 
-init(document.querySelectorAll("[title]"));
+    function hideTooltip(e) {
+        if(activeTooltip) {
+            e.currentTarget.setAttribute("title", activeTooltip.textContent);
+            activeTooltip.remove();
+        }
+    }
+
+    function init(elems) {
+        for(let elem of elems) {
+            elem.addEventListener("mouseenter", showTooltip);
+            elem.addEventListener("mouseleave", hideTooltip);
+        }
+    }
+
+    window.makeTooltip = init;
+})();
+
+makeTooltip(document.querySelectorAll("[title]"));
